@@ -1,4 +1,7 @@
 from room import Room
+from player import Player
+import textwrap
+import os
 
 # Declare all the rooms
 
@@ -38,7 +41,7 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
-
+player = Player('Sara', room['outside'])
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +52,50 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+# REPL
+'''
+Create the REPL command parser which allows the player to move to rooms in the four cardinal directions.
+'''
+
+'''
+wrapper = textwrap.TextWrapper(width=10)
+text_list = wrapper.wrap(text=room.Room)
+'''
+
+
+def game_movement():
+    while True:
+        current_room = player.current_room
+        print("You stand at the", player.current_room.name)
+        print("In this room ", player.current_room.description)
+        print("Where would you like to go now?")
+        direction = input(
+            "[n] North  [s] South  [e] East   [w]  West  [q] Quit -> Please lead the way... ")
+        if direction.lower() == "q":
+            print("Alas, we shall see you again in due time!")
+            break
+        elif direction.lower() == "n" and player.current_room != None:
+            print("This way North")
+            player.current_room = current_room.n_to
+            os.system("clear")
+        elif direction.lower() == "s" and player.current_room != None:
+            print("This way South")
+            player.current_room = current_room.s_to
+            os.system("clear")
+        elif direction.lower() == "e" and player.current_room != None:
+            print("This way East")
+            player.current_room = current_room.e_to
+            os.system("clear")
+        elif direction.lower() == "w" and player.current_room != None:
+            print("This way West")
+            player.current_room = current_room.w_to
+            os.system("clear")
+        else:
+            print("You shall not pass!")
+            direction = input(
+                "[n] North  [s] South  [e] East   [w] West  [q] Quit -> ")
+            os.system("clear")
+
+
+game_movement()
